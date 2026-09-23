@@ -1,0 +1,28 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`About | ${SITE_TITLE}`} description="A bit about me." />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>About</h1>
+			<p>
+				Short intro goes here — who you are, what you care about, and what you're working on
+				now. Keep it casual; this page is yours to rewrite.
+			</p>
+			<p>
+				For roles and timeline, see <a href="/experience">Experience</a>. For longer-form
+				writing, check the <a href="/blog">Blog</a>.
+			</p>
+		</main>
+		<Footer />
+	</body>
+</html>

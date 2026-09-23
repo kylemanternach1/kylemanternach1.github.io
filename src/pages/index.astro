@@ -1,0 +1,29 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Hi, I'm Kyle.</h1>
+			<p>
+				This is my personal site — a place for my experience, projects, and occasional writing.
+			</p>
+			<p>
+				Start with <a href="/experience">Experience</a> for my background, or browse the
+				<a href="/blog">Blog</a> for posts. Everything here is easy to edit: pages live in
+				<code>src/pages/</code>, and blog posts are Markdown files in
+				<code>src/content/blog/</code>.
+			</p>
+		</main>
+		<Footer />
+	</body>
+</html>
