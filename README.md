@@ -11,7 +11,7 @@ npm run dev
 
 Site runs at [http://localhost:4321](http://localhost:4321).
 
-The live site is [https://kylemanternach1.github.io/](https://kylemanternach1.github.io/). Pushes to `main` deploy it with GitHub Pages.
+The live site is [https://kylemanternach1.github.io/](https://kylemanternach1.github.io/).
 
 ## Where to edit
 
