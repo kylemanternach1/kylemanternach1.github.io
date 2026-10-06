@@ -1,0 +1,52 @@
+---
+interface Props {
+	name: string;
+}
+
+const { name } = Astro.props;
+---
+
+{
+	name === 'software' && (
+		<svg viewBox="0 0 64 64" aria-hidden="true">
+			<path d="M26 20 14 32l12 12" />
+			<path d="M38 20 50 32 38 44" />
+			<path d="M36 16 28 48" />
+		</svg>
+	)
+}
+{
+	name === 'product' && (
+		<svg viewBox="0 0 64 64" aria-hidden="true">
+			<rect x="16" y="14" width="32" height="38" rx="4" />
+			<path d="M26 14.5v-2a6 6 0 0 1 12 0v2" />
+			<path d="M24 30h16" />
+			<path d="M24 38h16" />
+			<path d="M24 46h10" />
+		</svg>
+	)
+}
+{
+	name === 'systems' && (
+		<svg viewBox="0 0 64 64" aria-hidden="true">
+			<path d="M32 24 18 44M32 24l14 20M22 46h20" />
+			<circle cx="32" cy="18" r="6" />
+			<circle cx="16" cy="48" r="6" />
+			<circle cx="48" cy="48" r="6" />
+		</svg>
+	)
+}
+{
+	name === 'learning' && (
+		<svg viewBox="0 0 64 64" aria-hidden="true">
+			<path d="M16 22h16M16 42h16M32 14v16M32 34v16M48 22H32M48 42H32" />
+			<circle cx="14" cy="22" r="5" />
+			<circle cx="14" cy="42" r="5" />
+			<circle cx="32" cy="14" r="5" />
+			<circle cx="32" cy="32" r="5" />
+			<circle cx="32" cy="50" r="5" />
+			<circle cx="50" cy="22" r="5" />
+			<circle cx="50" cy="42" r="5" />
+		</svg>
+	)
+}

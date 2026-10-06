@@ -1,8 +1,20 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
+import FocusIcon from '../components/FocusIcon.astro';
+import SiteNav from '../components/SiteNav.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { experiences, focusAreas, profile, projects, technologies } from '../data/site';
+import '../styles/portfolio.css';
+
+const emphasize = (text: string) =>
+	text
+		.split(/(\*\*[^*]+\*\*)/g)
+		.filter(Boolean)
+		.map((part) =>
+			part.startsWith('**')
+				? { strong: true, text: part.slice(2, -2) }
+				: { strong: false, text: part },
+		);
 ---
 
 <!doctype html>
@@ -10,20 +22,194 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
-	<body>
-		<Header />
+	<body class="portfolio">
+		<script is:inline>
+			if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				document.documentElement.classList.add('motion');
+			}
+		</script>
+		<SiteNav />
+		<section class="hero">
+			<div class="hero-row">
+				<div>
+					<h1>
+						{profile.firstName}<br />
+						{profile.lastName}
+					</h1>
+					<p class="role">{profile.role}</p>
+				</div>
+				<div class="socials">
+					<a href={profile.github} target="_blank" rel="noopener noreferrer">
+						<span class="sr-only">GitHub</span>
+						<svg viewBox="0 0 16 16" aria-hidden="true">
+							<path
+								fill="currentColor"
+								d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+							></path>
+						</svg>
+					</a>
+					{
+						profile.linkedin && (
+							<a href={profile.linkedin} target="_blank" rel="noopener noreferrer">
+								<span class="sr-only">LinkedIn</span>
+								<svg viewBox="0 0 24 24" aria-hidden="true">
+									<path
+										fill="currentColor"
+										d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8.5h4V24h-4V8.5zM8.5 8.5h3.8v2.1h.05c.53-1 1.84-2.1 3.79-2.1 4.05 0 4.8 2.67 4.8 6.14V24h-4v-7.7c0-1.84-.03-4.2-2.56-4.2-2.56 0-2.95 2-2.95 4.06V24h-4V8.5z"
+									></path>
+								</svg>
+							</a>
+						)
+					}
+				</div>
+			</div>
+			<a class="scroll-cue" href="#about" aria-label="Scroll to about">
+				<span></span>
+			</a>
+		</section>
+
 		<main>
-			<h1>Hi, I'm Kyle.</h1>
-			<p>
-				This is my personal site — a place for my experience, projects, and occasional writing.
-			</p>
-			<p>
-				Start with <a href="/experience">Experience</a> for my background, or browse the
-				<a href="/blog">Blog</a> for posts. Everything here is easy to edit: pages live in
-				<code>src/pages/</code>, and blog posts are Markdown files in
-				<code>src/content/blog/</code>.
-			</p>
+			<section class="band">
+				<div id="about" class="reveal reveal-from-top">
+					<p class="section-kicker">Introduction</p>
+					<h2>Overview.</h2>
+				</div>
+				<p class="lede reveal reveal-fade" style="--delay: 0.1s">
+					{profile.overview}
+				</p>
+				<div class="focus-grid">
+					{
+						focusAreas.map((area, index) => (
+							<div class="reveal reveal-from-left" style={`--delay: ${index * 0.5}s`}>
+								<article class="focus-card tilt">
+									<FocusIcon name={area.icon} />
+									<h3>{area.title}</h3>
+								</article>
+							</div>
+						))
+					}
+				</div>
+			</section>
+
+			<section class="band band-work">
+				<div id="work" class="reveal reveal-from-top">
+					<p class="section-kicker">What I have done so far</p>
+					<h2>Work Experience.</h2>
+				</div>
+				<ol class="timeline">
+					{
+						experiences.map((job, index) => (
+							<li>
+								<div
+									class:list={[
+										'timeline-card',
+										'reveal',
+										index % 2 === 0 ? 'reveal-from-left' : 'reveal-from-right',
+									]}
+								>
+									<article>
+										<h3>{job.title}</h3>
+										<p class="company">{job.company}</p>
+										<ul>
+											{job.points.map((point) => (
+												<li>
+													{emphasize(point).map((part) =>
+														part.strong ? <strong>{part.text}</strong> : part.text,
+													)}
+												</li>
+											))}
+										</ul>
+									</article>
+								</div>
+								<time class="reveal reveal-fade" style="--delay: 0.15s">
+									{job.date}
+								</time>
+								<span class="dot">
+									<img src={job.logo} alt="" />
+								</span>
+							</li>
+						))
+					}
+				</ol>
+				<div class="tech-row">
+					{
+						technologies.map((tech, index) => (
+							<span class="reveal reveal-fade" style={`--delay: ${index * 0.12}s`}>
+								<img src={tech.src} alt={tech.name} />
+							</span>
+						))
+					}
+				</div>
+			</section>
+
+			<section class="band">
+				<div id="projects" class="reveal reveal-from-top">
+					<p class="section-kicker">My work</p>
+					<h2>Projects.</h2>
+				</div>
+				<p class="lede reveal reveal-fade" style="--delay: 0.1s">{profile.projectsIntro}</p>
+				<div class="project-grid">
+					{
+						projects.map((project, index) => (
+							<div class="reveal reveal-from-bottom" style={`--delay: ${index * 0.5}s`}>
+							<article class="project-card tilt">
+								<div class="project-thumb">
+									<a href={project.href} target="_blank" rel="noopener noreferrer">
+										<span class="sr-only">Source for {project.name}</span>
+										<svg viewBox="0 0 16 16" aria-hidden="true">
+											<path
+												fill="currentColor"
+												d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+											></path>
+										</svg>
+									</a>
+								</div>
+								<h3>{project.name}</h3>
+								<p>{project.description}</p>
+								<div class="tags">
+									{project.tags.map((tag) => (
+										<span>#{tag}</span>
+									))}
+								</div>
+							</article>
+							</div>
+						))
+					}
+				</div>
+			</section>
 		</main>
-		<Footer />
+		<script>
+			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+			if (!reduceMotion) {
+				const reveals = document.querySelectorAll('.reveal');
+				const observer = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (!entry.isIntersecting) continue;
+							entry.target.classList.add('is-in');
+							observer.unobserve(entry.target);
+						}
+					},
+					{ threshold: 0.25 },
+				);
+				reveals.forEach((element) => observer.observe(element));
+
+				document.querySelectorAll<HTMLElement>('.tilt').forEach((card) => {
+					const max = 20;
+					card.addEventListener('mousemove', (event) => {
+						const rect = card.getBoundingClientRect();
+						const px = (event.clientX - rect.left) / rect.width;
+						const py = (event.clientY - rect.top) / rect.height;
+						const rotateY = (px - 0.5) * max * 2;
+						const rotateX = (0.5 - py) * max * 2;
+						card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+					});
+					card.addEventListener('mouseleave', () => {
+						card.style.transform = '';
+					});
+				});
+			}
+		</script>
 	</body>
 </html>

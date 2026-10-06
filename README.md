@@ -11,15 +11,18 @@ npm run dev
 
 Site runs at [http://localhost:4321](http://localhost:4321).
 
+The live site is [https://kylemanternach1.github.io/](https://kylemanternach1.github.io/). Pushes to `main` deploy it with GitHub Pages.
+
 ## Where to edit
 
 | What | Where |
 | --- | --- |
-| Home, About, Experience | `src/pages/` |
+| Name, intro, jobs, projects | `src/data/site.ts` |
+| Homepage layout | `src/pages/index.astro` |
 | Blog posts | `src/content/blog/*.md` |
 | Site name / description | `src/consts.ts` |
-| Nav & footer | `src/components/` |
-| Global styles | `src/styles/global.css` |
+| Navigation | `src/components/SiteNav.astro` |
+| Portfolio styles | `src/styles/portfolio.css` |
 
 ## New blog post
 
